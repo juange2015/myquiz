@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> MyQuiz </title>
+<link rel='stylesheet' href='stylesheets/style.css' />
+<head>
+<body>
+<h2> Myquiz: vamos a hacernos preguntas </h2>
+
+   <form methon="get" action="/quizes/answer">
+   Pregunta : <%= pregunta %> <p>
+   <input type="text" name="respuesta" value="Contesta aqui"/>
+   <input type="submit" value="Enviar">
+   </form>
+</body>
+</html>
+  
