@@ -12,7 +12,7 @@ exports.answer = function(req, res) {
 	if (req.query.respuesta ==="Roma"){
 		res.render('quizes/answer',{respuesta: 'OK, correcto'});
 	} else {
-		res.render('quizes/answer',{respuesta: 'NO, incorrecto'});
+		res.render('quizes/answer',{respuesta: 'NO, '+req.query.respuesta+' es incorrecto. Es Roma.'});
 	}
 };
 
