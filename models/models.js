@@ -2,40 +2,41 @@ var path = require('path');
 
 // Postgres DATABASE_URL = postgres://user:passwd@host:port/database
 // SQLite   DATABASE_URL = sqlite://:@:/
-//jng var url = process.env.DATABASE_URL.match(/(.*)\:\/\/(.*?)\:(.*)@(.*)\:(.*)\/(.*)/);
-//jng var DB_name  = (url[6]||null);
-//jng var user     = (url[2]||null);
-//jng var pwd      = (url[3]||null);
-//jng var protocol = (url[1]||null);
-//jng var dialect  = (url[1]||null);
-//jng var port     = (url[5]||null);
-//jng var host     = (url[4]||null);
-//jng var storage  = process.env.DATABASE_STORAGE;
+var url = process.env.DATABASE_URL.match(/(.*)\:\/\/(.*?)\:(.*)@(.*)\:(.*)\/(.*)/);
+var DB_name  = (url[6]||null);
+var user     = (url[2]||null);
+var pwd      = (url[3]||null);
+var protocol = (url[1]||null);
+var dialect  = (url[1]||null);
+var port     = (url[5]||null);
+var host     = (url[4]||null);
+var storage  = process.env.DATABASE_STORAGE;
 
 // Cargar Modelo ORM
 var Sequelize = require('sequelize');
 
 // Usar BBDD SQLite o Postgres
-var sequelize = new Sequelize('myquids',null,null,
-	//{dialect: "sqlite", storage: "quiz.sqlite"}
-	{dialect: 'sqlite', storage: ':memory:'}
+// al pasar a postgres var sequelize = new Sequelize('myquids',null,null,
+// al pasar a postgres 	{dialect: "sqlite", storage: "quiz.sqlite"}
+// al pasar a postgres 	//{dialect: 'sqlite', storage: ':memory:'}   //y asi funciona sin un fichero detrás
+// al pasar a postgres 
+// al pasar a postgres 	);
 
-	);
-
-//jng var sequelize = new Sequelize(DB_name, user, pwd, 
-//jng   { dialect:  protocol,
-//jng     protocol: protocol,
-//jng     port:     port,
-//jng     host:     host,
-//jng     storage:  storage,  // solo SQLite (.env)
-//jng     omitNull: true      // solo Postgres
-//jng   }      
-//jng );
+// al pasar a postgres 
+var sequelize = new Sequelize(DB_name, user, pwd, 
+  { dialect:  protocol,
+    protocol: protocol,
+    port:     port,
+    host:     host,
+    storage:  storage,  // solo SQLite (.env)
+    omitNull: true      // solo Postgres
+  }      
+);
 
 // Importar definicion de la tabla Quiz
-//var quiz_path = path.join(__dirname,'quiz');
-//var Quiz = sequelize.import(quiz_path);
-var Quiz = sequelize.import(path.join(__dirname,'quiz'));
+var quiz_path = path.join(__dirname,'quiz');
+var Quiz = sequelize.import(quiz_path);
+// var Quiz = sequelize.import(path.join(__dirname,'quiz'));
 
 // Importar definicion de la tabla Comment
 //jng var comment_path = path.join(__dirname,'comment');
@@ -58,13 +59,14 @@ exports.Quiz = Quiz;
 //jng exports.User = User;
 
 console.log(sequelize.sync());
-console.log("NO PITA");
+console.log("sequelize.synced");
 
-if (sequelize.sync()===undefined) {console.log("te pille");};
+if (sequelize.sync()===undefined) {console.log("Error con sequelice.sync");};
 
 sequelize.sync().success(function() {
 	Quiz.count().success(function(count) {
 		if (count === 0){
+			console.log("Creando al menos una pregunta");
 			Quiz.create({ pregunta: 'Capital de Italia',
 						respuesta: 'Roma'
 			})

@@ -2,3 +2,4 @@ BORRA*
 *.log
 node_modules
 quiz.sqlite
+.env
