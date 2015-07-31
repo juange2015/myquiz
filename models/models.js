@@ -63,12 +63,15 @@ console.log("sequelize.synced");
 
 if (sequelize.sync()===undefined) {console.log("Error con sequelice.sync");};
 
-sequelize.sync().success(function() {
-	Quiz.count().success(function(count) {
-		if (count === 0){
+sequelize.sync().then(function() {
+	Quiz.count().then(function(count) {
+		if (count <2){    // si no hay 2 crea, pero deja el que hubiera inicialmente :-(
 			console.log("Creando al menos una pregunta");
 			Quiz.create({ pregunta: 'Capital de Italia',
 						respuesta: 'Roma'
+			});
+			Quiz.create({ pregunta: 'Capital de Portugal',
+						respuesta: 'Lisboa'
 			})
 			.success(function(){console.log('Database inicializada')});
 			};
