@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var debug=require('debug')('myquiz');
 
 var partials = require ('express-partials');
+var methodOverride = require('method-override');
 
 var routes = require('./routes/index');
 //20150709 var users = require('./routes/users');
@@ -28,6 +29,7 @@ app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
