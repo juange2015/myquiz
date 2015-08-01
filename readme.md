@@ -8,4 +8,7 @@ Pero es mala época para sacar tiempo para esto.
 
 No he conseguido distinguir en routes\index.js si se pasan o no parámetros, así que dejo la disquisición en quiz_controller
 
-Pero ya he en tregado la 7, he hecho la 8 y he reunificado en master la rama búsquedas, y todo va bien (ajustado de tiempo, pero funciona)
+Pero ya he entregado la 7, he hecho la 8 y he reunificado en master la rama búsquedas, y todo va bien (ajustado de tiempo, pero funciona)
+
+Tras pegarme con un par de fallos en las verificaciones y actualizaciones de bases de datos, meter el campo tema no me ha llevado nada de tiempo.
+

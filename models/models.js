@@ -67,11 +67,15 @@ sequelize.sync().then(function() {
 	Quiz.count().then(function(count) {
 		if (count <2){    // si no hay 2 crea, pero deja el que hubiera inicialmente :-(
 			console.log("Creando al menos una pregunta");
-			Quiz.create({ pregunta: 'Capital de Italia',
-						respuesta: 'Roma'
+			Quiz.create({ 	id: '1',
+						pregunta: 'Capital de Italia',
+						respuesta: 'Roma',
+						tema:'Humanidades'
 			});
-			Quiz.create({ pregunta: 'Capital de Portugal',
-						respuesta: 'Lisboa'
+			Quiz.create({ 	id: '2',
+						pregunta: 'Capital de Portugal',
+						respuesta: 'Lisboa',
+						tema:'Humanidades'
 			})
 			.success(function(){console.log('Database inicializada')});
 			};

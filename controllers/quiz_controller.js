@@ -22,8 +22,21 @@ exports.load = function(req, res, next, quizId) {
 // GET /quizes/?search=algo
 //intenté separar los casos en el router: exports.indexfiltered = function(req, res) {
 exports.index = function(req, res){
+	console.log("DEPURA FILTRA", req.query.search);
+	console.log("DEPURA FILTRA", req.query.tema);
+	
+	// me falta poder filtrar por ambas cosas a la vez: hay que ver cómo se meten ambas condiciones en el where
+	
+	if (req.query.tema){
+		console.log("DEPURA con tema", req.query.tema);
+		//var texto= req.query.search;
+		//depura console.log("DEPURA2", texto);
+		console.log("DEPURA5->:", texto,":<-");
+		models.Quiz.findAll({where:["tema like ?", req.query.tema],order:'pregunta ASC'}).then(function(quizes){
+			res.render('quizes/index',{quizes: quizes,errors: []}); 
+			}).catch(function(error) { next(error);});
 		
-	if (req.query.search){
+	}else if (req.query.search && req.query.search !=''){
 	console.log("DEPURA con search", req.query,req.query.search);
 		//var texto= req.query.search;
 		//depura console.log("DEPURA2", texto);
@@ -103,7 +116,7 @@ exports.create = function(req, res) {
 			res.render("quizes/new", {quiz:quiz, errors: misfallos});
 		}
 		else{
-			quiz.save({fields: ["pregunta", "respuesta"]})
+			quiz.save({fields: ["pregunta", "respuesta","tema"]})
 			.then( function(){res.redirect('/quizes')})
             // res.redirect: RedirecciÃ³n HTTP a lista de preguntas
 		}
@@ -112,7 +125,6 @@ exports.create = function(req, res) {
 // GET /quizes/:id/edit
 exports.edit = function(req, res) {
   var quiz = req.quiz;  // req.quiz: autoload de instancia de quiz
-
   res.render('quizes/edit', {quiz: quiz, errors: []});
 };
 
@@ -123,11 +135,13 @@ exports.edit = function(req, res) {
 exports.update = function(req, res) {
 //req.quiz ya es el objeto que tienes mapeado en sequalize: actualiza sobre él y haz save al final
 	
-//depura console.log("DEPURA UPDATE req.quiz.pregunta", req.quiz.pregunta);   
+console.log("DEPURA UPDATE req.quiz.pregunta", req.quiz.pregunta,req.quiz.tema);   
+console.log("DEPURA UPDATE body", req.body.tema);   
 //copias a capón los valores nuevos en los viejos, y ya haras save en la base de datos
   req.quiz.pregunta  = req.body.quiz.pregunta;
   req.quiz.respuesta = req.body.quiz.respuesta;
-//depura console.log("DEPURA UPDATE quiz.pregunta.cambiada", req.quiz.pregunta);   
+  req.quiz.tema = req.body.tema;  // no se por qué sale fuera de quiz
+console.log("DEPURA UPDATE quiz.pregunta.cambiada", req.quiz.pregunta,req.quiz.tema);   
 	
 	
  var fallos=req.quiz.validate();
@@ -142,7 +156,7 @@ exports.update = function(req, res) {
 // 			//res.render('quizes/edit', {quiz: req.quiz, errors: err.errors});
       } else {
 	//quiz.update({fields: ["pregunta", "respuesta"],validate: true, where:["pregunta like ?", viejapregunta],order:'pregunta ASC' })
-        req.quiz.save({fields: ["pregunta", "respuesta"]}).then( function(){ res.redirect('/quizes');});
+        req.quiz.save({fields: ["pregunta", "respuesta","tema"]}).then( function(){ res.redirect('/quizes');});
 
         
 	// quiz.save( {fields: ["pregunta", "respuesta"]}).then( function(){ res.redirect('/quizes');});
