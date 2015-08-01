@@ -1,3 +1,5 @@
+//CONTROLLERS  / quiz_controller.js
+
 var models = require('../models/models.js');
 
 // Autoload factoriza el codigo común para rutas que contengan :quizId
@@ -49,3 +51,23 @@ exports.answer = function(req, res) {
 exports.author = function(req, res) {
   res.render('author',{autor: 'juange'});
 };
+
+// GET /quizes/new
+exports.new = function(req, res) {
+  var quiz = models.Quiz.build( // crea objeto quiz (hay que ponerle ahora la categoria)
+    {pregunta: "Pregunta", respuesta: "Respuesta"}
+  );
+
+  res.render('quizes/new', {quiz: quiz});
+};
+
+// POST /quizes/create
+exports.create = function(req, res) {
+  var quiz = models.Quiz.build( req.body.quiz );
+        // save: guarda en base de datos los campos pregunta y respuesta de quiz
+        quiz.save({fields: ["pregunta", "respuesta"]}).then( function(){ 
+		res.redirect('/quizes');}
+            // res.redirect: RedirecciÃ³n HTTP a lista de preguntas
+  ).catch(function(error){next(error)});
+};
+

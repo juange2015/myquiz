@@ -1,3 +1,5 @@
+// ROUTES / index.js
+
 var express = require('express');
 var router = express.Router();
 
@@ -14,6 +16,10 @@ router.param("quizId", quizController.load);
 router.get('/quizes', 				quizController.index);
 router.get('/quizes/:quizId(\\d+)',		quizController.show);
 router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
+
+router.get('/quizes/new', 			 quizController.new);
+router.post('/quizes/create',              	 quizController.create);
+
 
 router.get('/author', quizController.author);
 
