@@ -20,10 +20,9 @@ exports.load = function(req, res, next, quizId) {
 
 
 // GET /quizes/?search=algo
-//exports.indexfiltered = function(req, res) {
+//intenté separar los casos en el router: exports.indexfiltered = function(req, res) {
 exports.index = function(req, res){
-	
-	
+		
 	if (req.query.search){
 	console.log("DEPURA con search", req.query,req.query.search);
 		//var texto= req.query.search;
@@ -31,14 +30,14 @@ exports.index = function(req, res){
 		var texto=req.query.search.replace(" ", "%");
 		console.log("DEPURA5->:", texto,":<-");
 		models.Quiz.findAll({where:["pregunta like ?", '%'+texto+'%'],order:'pregunta ASC'}).then(function(quizes){
-			res.render('quizes/index',{quizes: quizes}); 
+			res.render('quizes/index',{quizes: quizes,errors: []}); 
 			}).catch(function(error) { next(error);});
 		
 	}else{
 		console.log("DEPURA sin parametros", req.query,req.query.search);
 		//depura console.log("DEPURASIN", req.query);
 		models.Quiz.findAll().then(function(quizes){
-		res.render('quizes/index',{quizes: quizes}); 
+		res.render('quizes/index',{quizes: quizes,errors:[]}); 
 		}).catch(function(error) { next(error);});
 	}
 		
@@ -50,7 +49,7 @@ exports.show = function(req, res) {
 	//models.Quiz.find(req.params.quizId).then(function(quiz){
 		//depurando if (quiz===null ) console.log("quiz ya es nulo",req.params);
 		//depurando console.log("Depurando: ", quiz);
-		res.render('quizes/show', { quiz: req.quiz});
+		res.render('quizes/show', { quiz: req.quiz,errors:[]});
 	//})
 };
 
@@ -63,32 +62,51 @@ exports.answer = function(req, res) {
 			//{quiz: quiz, respuesta: "Correcto"});
 			resultado="Correcto";
 		} //else {
-		res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado});
+		res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado,errors:[]});
 		//}
 	//})
 };
 
 // GET /quizes/question
 exports.author = function(req, res) {
-  res.render('author',{autor: 'juange'});
+  res.render('author',{autor: 'juange',errors:[]});
 };
 
 // GET /quizes/new
 exports.new = function(req, res) {
   var quiz = models.Quiz.build( // crea objeto quiz (hay que ponerle ahora la categoria)
-    {pregunta: "Pregunta", respuesta: "Respuesta"}
+    {pregunta: "Pregunta que propones", respuesta: "La respuesta correcta sería..."}
   );
-
-  res.render('quizes/new', {quiz: quiz});
+  res.render('quizes/new', {quiz: quiz,errors:[]});
 };
 
 // POST /quizes/create
 exports.create = function(req, res) {
-  var quiz = models.Quiz.build( req.body.quiz );
-        // save: guarda en base de datos los campos pregunta y respuesta de quiz
-        quiz.save({fields: ["pregunta", "respuesta"]}).then( function(){ 
-		res.redirect('/quizes');}
+	
+	//depura console.log("DEPURANDO CREATE", req.body.quiz);
+	var quiz = models.Quiz.build( req.body.quiz );
+       	var fallos=quiz.validate();
+	
+	 // save: guarda en base de datos los campos pregunta y respuesta de quiz
+	//depura console.log("DEPURANDO Quiz", fallos);
+	//console.log("DEPURANDO QuizValidate", quiz.validate());
+        //quiz.validate().then(function(err){
+	//	console.log("DEPURANDO RESUELTO");
+	
+	// el codigo propuesto da falllos porque quiz.validate() devolvia null
+		if (fallos) {
+			var i=0;
+			misfallos=new Array();
+			for (var prop in fallos){
+				misfallos[i++]={message: fallos[prop]};
+			}
+			res.render("quizes/new", {quiz:quiz, errors: misfallos});
+		}
+		else{
+			quiz.save({fields: ["pregunta", "respuesta"]})
+			.then( function(){res.redirect('/quizes')})
             // res.redirect: RedirecciÃ³n HTTP a lista de preguntas
-  ).catch(function(error){next(error)});
-};
+		}
+	};
+	
 

@@ -7,7 +7,7 @@ var quizController = require('../controllers/quiz_controller');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'node.js+Express Quiz',errors:[]});
 });
 
 //Autoload de comandos que incluyan :quizId
