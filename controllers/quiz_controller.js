@@ -15,15 +15,33 @@ exports.load = function(req, res, next, quizId) {
 };
 
 
-// GET /quizes
+
+
+// GET /quizeshttp://localhost:5000/quizes/?search=algo
 exports.index = function(req, res) {
-	models.Quiz.findAll().then(function(quizes){
+	console.log("DEPURA", req.query,req.query.search);
+	if (req.query.search){
+		var texto= req.query.search;
+		//depura console.log("DEPURA2", texto);
+		texto=texto.replace(" ", "%");
+		//depura console.log("DEPURA5", texto);
+		models.Quiz.findAll({where:["pregunta like ?", '%'+texto+'%']/*,order:'pregunta ASC'*/}).then(function(quizes){
+			res.render('quizes/index',{quizes: quizes}); 
+			}).catch(function(error) { next(error);});
+		
+	}
+	else{
+		//depura console.log("DEPURASIN", req.query);
+		models.Quiz.findAll().then(function(quizes){
 		res.render('quizes/index',{quizes: quizes}); 
-	})
+		})//.catch(function(error) { next(error);};
+	}
+		
 };
 
 // GET /quizes/:id
 exports.show = function(req, res) {
+	//console.log("DEPURAshow", req);
 	//models.Quiz.find(req.params.quizId).then(function(quiz){
 		//depurando if (quiz===null ) console.log("quiz ya es nulo",req.params);
 		//depurando console.log("Depurando: ", quiz);
