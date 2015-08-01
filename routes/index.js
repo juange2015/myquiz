@@ -14,6 +14,7 @@ router.get('/', function(req, res, next) {
 router.param("quizId", quizController.load);
 
 router.get('/quizes', 				quizController.index);
+// no tengo tiempo para investigar como separar en routing si tiene o no query:   router.get('/quizes.*search.*',	quizController.indexfiltered);
 router.get('/quizes/:quizId(\\d+)',		quizController.show);
 router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
 

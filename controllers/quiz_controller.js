@@ -17,15 +17,36 @@ exports.load = function(req, res, next, quizId) {
 };
 
 
-// GET /quizes
-exports.index = function(req, res) {
-	models.Quiz.findAll().then(function(quizes){
+
+
+// GET /quizes/?search=algo
+//exports.indexfiltered = function(req, res) {
+exports.index = function(req, res){
+	
+	
+	if (req.query.search){
+	console.log("DEPURA con search", req.query,req.query.search);
+		//var texto= req.query.search;
+		//depura console.log("DEPURA2", texto);
+		var texto=req.query.search.replace(" ", "%");
+		console.log("DEPURA5->:", texto,":<-");
+		models.Quiz.findAll({where:["pregunta like ?", '%'+texto+'%'],order:'pregunta ASC'}).then(function(quizes){
+			res.render('quizes/index',{quizes: quizes}); 
+			}).catch(function(error) { next(error);});
+		
+	}else{
+		console.log("DEPURA sin parametros", req.query,req.query.search);
+		//depura console.log("DEPURASIN", req.query);
+		models.Quiz.findAll().then(function(quizes){
 		res.render('quizes/index',{quizes: quizes}); 
-	})
+		}).catch(function(error) { next(error);});
+	}
+		
 };
 
 // GET /quizes/:id
 exports.show = function(req, res) {
+	//console.log("DEPURAshow", req);
 	//models.Quiz.find(req.params.quizId).then(function(quiz){
 		//depurando if (quiz===null ) console.log("quiz ya es nulo",req.params);
 		//depurando console.log("Depurando: ", quiz);

@@ -2,5 +2,8 @@ Este fichero es el readme de mi proyecto myquiz
 
 Se trata de un javascript para node.js para el curso de MiriadaX
 
+Una vez terminado el modulo 7, la aplicación va haciendo alguna cosa.
 
-De momento solo tiene un esquema hecho con express-setup
+Pero es mala época para sacar tiempo para esto.
+
+No he conseguido distinguir en routes\index.js si se pasan o no parámetros, así que dejo la disquisición en quiz_controller
