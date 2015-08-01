@@ -136,7 +136,7 @@ exports.update = function(req, res) {
 //req.quiz ya es el objeto que tienes mapeado en sequalize: actualiza sobre él y haz save al final
 	
 console.log("DEPURA UPDATE req.quiz.pregunta", req.quiz.pregunta,req.quiz.tema);   
-console.log("DEPURA UPDATE body", req.body.tema);   
+console.log("DEPURA UPDATE body.tema", req.body.tema);   
 //copias a capón los valores nuevos en los viejos, y ya haras save en la base de datos
   req.quiz.pregunta  = req.body.quiz.pregunta;
   req.quiz.respuesta = req.body.quiz.respuesta;

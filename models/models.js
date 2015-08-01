@@ -61,7 +61,7 @@ exports.Quiz = Quiz;
 console.log(sequelize.sync());
 console.log("sequelize.synced");
 
-if (sequelize.sync()===undefined) {console.log("Error con sequelice.sync");};
+if (sequelize.sync()===undefined) {console.log("Error con sequelize.sync");};
 
 sequelize.sync().then(function() {
 	Quiz.count().then(function(count) {
