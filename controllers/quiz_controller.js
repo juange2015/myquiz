@@ -17,24 +17,27 @@ exports.load = function(req, res, next, quizId) {
 
 
 
-// GET /quizeshttp://localhost:5000/quizes/?search=algo
-exports.index = function(req, res) {
-	console.log("DEPURA", req.query,req.query.search);
+// GET /quizes/?search=algo
+//exports.indexfiltered = function(req, res) {
+exports.index = function(req, res){
+	
+	
 	if (req.query.search){
-		var texto= req.query.search;
+	console.log("DEPURA con search", req.query,req.query.search);
+		//var texto= req.query.search;
 		//depura console.log("DEPURA2", texto);
-		texto=texto.replace(" ", "%");
-		//depura console.log("DEPURA5", texto);
-		models.Quiz.findAll({where:["pregunta like ?", '%'+texto+'%']/*,order:'pregunta ASC'*/}).then(function(quizes){
+		var texto=req.query.search.replace(" ", "%");
+		console.log("DEPURA5->:", texto,":<-");
+		models.Quiz.findAll({where:["pregunta like ?", '%'+texto+'%'],order:'pregunta ASC'}).then(function(quizes){
 			res.render('quizes/index',{quizes: quizes}); 
 			}).catch(function(error) { next(error);});
 		
-	}
-	else{
+	}else{
+		console.log("DEPURA sin parametros", req.query,req.query.search);
 		//depura console.log("DEPURASIN", req.query);
 		models.Quiz.findAll().then(function(quizes){
 		res.render('quizes/index',{quizes: quizes}); 
-		})//.catch(function(error) { next(error);};
+		}).catch(function(error) { next(error);});
 	}
 		
 };
