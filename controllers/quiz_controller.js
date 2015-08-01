@@ -117,67 +117,17 @@ exports.edit = function(req, res) {
 };
 
 
+
+
 // PUT /quizes/:id
-// exports.update = function(req, res) {
- 
-//   console.log("DEPURA UPDATE req.quiz", req.quiz);   
-//   console.log("DEPURA UPDATE req.body.quiz", req.body.quiz);    // hay que tomar las respuestas de ahí
-	
-// 	var actualizado;
-// 	console.log("BUSCA",models.Quiz.findById("2"));
-	
-// 	models.Quiz.findAll({where:["pregunta like ?", req.quiz.pregunta]).then(function(quizes){
-// 			actualizado=quizes; 
-// 			}).catch(function(error) { next(error);});
-			
-	//models.Quiz.findById(req.quiz.id).then(function(quizes){
-	//		actualizado= quizes});
-			
-// 		console.log("LLEGA");
-// 		console.log("DEPURA UPDATE actualizado quiz", actualizado);   
-	  
-// 		var fallos=req.quiz.validate();
-// 		console.log("DEPURA UPDATE fallos", fallos);
-
-		
- //      if (fallos) {
-// 	      var i=0;
-// 			misfallos=new Array();
-// 			for (var prop in fallos){
-// 				misfallos[i++]={message: fallos[prop]};
-// 			}
-// 			res.render("quizes/edit", {quiz:quiz, errors: misfallos});
-// 			//res.render('quizes/edit', {quiz: req.quiz, errors: err.errors});
-//       } else {
-//         quiz.save( {fields: ["pregunta", "respuesta"]}).then( function(){ res.redirect('/quizes');});
-//       }     // RedirecciÃ³n HTTP a lista de preguntas (URL relativo)
-	
-      //});
-// };
-
-
-
-
 exports.update = function(req, res) {
 //req.quiz ya es el objeto que tienes mapeado en sequalize: actualiza sobre él y haz save al final
 	
-console.log("DEPURA UPDATE req.quiz.pregunta", req.quiz.pregunta);   
-
-// var quiz;
-//models.Quiz.findAll({where: ["pregunta like ?", req.quiz.pregunta]}).then(function(quizes){
-//			console.log("DENTRO",quizes);
-//			console.log("DENTRO Y", quizes.pregunta);
-//	}); 
-	//models.Quiz.findAll({where:["pregunta like ?", '%'+texto+'%'],order:'pregunta ASC'}).then(function(quizes){
- //console.log("DEPURA UPDATE quiz tras find", quiz);   
-	
+//depura console.log("DEPURA UPDATE req.quiz.pregunta", req.quiz.pregunta);   
+//copias a capón los valores nuevos en los viejos, y ya haras save en la base de datos
   req.quiz.pregunta  = req.body.quiz.pregunta;
   req.quiz.respuesta = req.body.quiz.respuesta;
-
-  //req.quiz.pregunta  = req.body.quiz.pregunta;
-  //req.quiz.respuesta = req.body.quiz.respuesta;
-
-console.log("DEPURA UPDATE quiz.pregunta.cambiada", req.quiz.pregunta);   
+//depura console.log("DEPURA UPDATE quiz.pregunta.cambiada", req.quiz.pregunta);   
 	
 	
  var fallos=req.quiz.validate();
@@ -200,3 +150,10 @@ console.log("DEPURA UPDATE quiz.pregunta.cambiada", req.quiz.pregunta);
       };
 };
 
+
+// DELETE /quizes/:id
+exports.destroy = function(req, res) {
+  req.quiz.destroy().then( function() {
+    res.redirect('/quizes');
+  }).catch(function(error){next(error)});
+};

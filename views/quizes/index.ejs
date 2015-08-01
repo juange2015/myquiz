@@ -9,6 +9,13 @@
 	<tr>
 		<td><%= quizes[i].id %>.</td><td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %> </a></td>
 		<td><a href="quizes/<%= quizes[i].id %>/edit"><button>EDITAR</button> </a></td>
+	
+	        <td>
+			<form method="post" action="/quizes/<%= quizes[i].id %>?_method=delete">
+			<button type="submit" onClick="return confirm('Borrar: <%= quizes[i].pregunta %>');">BORRAR</button>
+          </form>
+        </td>
+
 	</tr>
 
 <% } %>
