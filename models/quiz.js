@@ -15,7 +15,7 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.STRING,
         validate: { notEmpty: {msg: "-> Falta clasificar el tema"}}
       },
-      id:{  // no se si lo terminaré usando
+      id:{  
 	      type: DataTypes.STRING,
       }
       }

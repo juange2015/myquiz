@@ -88,7 +88,7 @@ exports.author = function(req, res) {
 // GET /quizes/new
 exports.new = function(req, res) {
   var quiz = models.Quiz.build( // crea objeto quiz (hay que ponerle ahora la categoria)
-    {pregunta: "Pregunta que propones", respuesta: "La respuesta correcta sería..."}
+    {pregunta: "Pregunta que propones", respuesta: "La respuesta correcta sería...", tema: ""}
   );
   res.render('quizes/new', {quiz: quiz,errors:[]});
 };
@@ -96,8 +96,37 @@ exports.new = function(req, res) {
 // POST /quizes/create
 exports.create = function(req, res) {
 	
-	//depura console.log("DEPURANDO CREATE", req.body.quiz);
+	
+	console.log("DEPURANDO CREATE req.body.quiz", req.body.quiz);
+	console.log("DEPURANDO CREATE req.body.tema", req.body.tema);
+	//depura console.log("DEPURANDO CREATE req.quiz", req.quiz); este da undefined
+	// por alguna razón no llega el campo tema
+
 	var quiz = models.Quiz.build( req.body.quiz );
+	
+	
+	// creas un objeto nuevo que mapear en la base de datos
+	console.log("DEPURANDO mas");
+
+	var max=3;
+	//seguro que hay una manera más directa de calcular el máximo +1 de los id, pero he intentado models.Quiz.max({field: "id}) y no lo he conseguido hacer funcionar
+	
+	models.Quiz.findAll().then(function(quizes){
+			console.log("DEP quizes max id");
+			max=quizes.length+1;
+			console.log("DEP quizes max id",max); 	
+			for (i=0; i<quizes.length; i++){
+				n=parseInt(quizes[i].id);
+				console.log("DEPURANDO",n);
+				if (max <= n) {
+					max=n+1;
+					console.log("DEPURANDO vale ", max);
+				}
+			};
+	quiz.id=max;
+	console.log("DEPURANDO CREATEed quiz.id", quiz.id);
+	quiz.tema=req.body.tema;
+			
        	var fallos=quiz.validate();
 	
 	 // save: guarda en base de datos los campos pregunta y respuesta de quiz
@@ -116,11 +145,18 @@ exports.create = function(req, res) {
 			res.render("quizes/new", {quiz:quiz, errors: misfallos});
 		}
 		else{
-			quiz.save({fields: ["pregunta", "respuesta","tema"]})
+			quiz.save({fields: ["pregunta", "respuesta","tema","id"]})
 			.then( function(){res.redirect('/quizes')})
             // res.redirect: RedirecciÃ³n HTTP a lista de preguntas
 		}
+		
+		});	
+		
 	};
+	
+	
+	
+	
 	
 // GET /quizes/:id/edit
 exports.edit = function(req, res) {
@@ -134,7 +170,9 @@ exports.edit = function(req, res) {
 // PUT /quizes/:id
 exports.update = function(req, res) {
 //req.quiz ya es el objeto que tienes mapeado en sequalize: actualiza sobre él y haz save al final
-	
+
+console.log("DEPURANDO UPDATE req.body.quiz", req.body.quiz);
+console.log("DEPURANDO UPDATE req.body.tema", req.body.tema);
 console.log("DEPURA UPDATE req.quiz.pregunta", req.quiz.pregunta,req.quiz.tema);   
 console.log("DEPURA UPDATE body.tema", req.body.tema);   
 //copias a capón los valores nuevos en los viejos, y ya haras save en la base de datos
