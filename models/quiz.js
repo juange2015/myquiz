@@ -14,10 +14,11 @@ module.exports = function(sequelize, DataTypes) {
       tema: {
         type: DataTypes.STRING,
         validate: { notEmpty: {msg: "-> Falta clasificar el tema"}}
-      },
-      id:{  
-	      type: DataTypes.STRING,
-      }
+      }//,
+	// si no creas este campo, el id lo gestiona automáticamente serialize
+	//id:{  
+	//      type: DataTypes.STRING,
+	//}
       }
       );
 }

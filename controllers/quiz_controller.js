@@ -111,19 +111,19 @@ exports.create = function(req, res) {
 	var max=3;
 	//seguro que hay una manera más directa de calcular el máximo +1 de los id, pero he intentado models.Quiz.max({field: "id}) y no lo he conseguido hacer funcionar
 	
-	models.Quiz.findAll().then(function(quizes){
-			console.log("DEP quizes max id");
-			max=quizes.length+1;
-			console.log("DEP quizes max id",max); 	
-			for (i=0; i<quizes.length; i++){
-				n=parseInt(quizes[i].id);
-				console.log("DEPURANDO",n);
-				if (max <= n) {
-					max=n+1;
-					console.log("DEPURANDO vale ", max);
-				}
-			};
-	quiz.id=max;
+//	models.Quiz.findAll().then(function(quizes){
+//			console.log("DEP quizes max id");
+//			max=quizes.length+1;
+//			console.log("DEP quizes max id",max); 	
+//			for (i=0; i<quizes.length; i++){
+//				n=parseInt(quizes[i].id);
+//				console.log("DEPURANDO",n);
+//				if (max <= n) {
+//					max=n+1;
+//					console.log("DEPURANDO vale ", max);
+//				}
+//			};
+//	quiz.id=max;
 	console.log("DEPURANDO CREATEed quiz.id", quiz.id);
 	quiz.tema=req.body.tema;
 			
@@ -145,12 +145,12 @@ exports.create = function(req, res) {
 			res.render("quizes/new", {quiz:quiz, errors: misfallos});
 		}
 		else{
-			quiz.save({fields: ["pregunta", "respuesta","tema","id"]})
+			quiz.save({fields: ["pregunta", "respuesta","tema"]})//,"id"]})
 			.then( function(){res.redirect('/quizes')})
             // res.redirect: RedirecciÃ³n HTTP a lista de preguntas
 		}
 		
-		});	
+		//});	
 		
 	};
 	
