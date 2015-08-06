@@ -39,15 +39,15 @@ var Quiz = sequelize.import(quiz_path);
 // var Quiz = sequelize.import(path.join(__dirname,'quiz'));
 
 // Importar definicion de la tabla Comment
-//jng var comment_path = path.join(__dirname,'comment');
-//jng var Comment = sequelize.import(comment_path);
+var comment_path = path.join(__dirname,'comment');
+var Comment = sequelize.import(comment_path);
 
 // Importar definicion de la tabla Comment
 //jng var user_path = path.join(__dirname,'user');
 //jng var User = sequelize.import(user_path);
 
-//jng Comment.belongsTo(Quiz);
-//jng Quiz.hasMany(Comment);
+Comment.belongsTo(Quiz);
+Quiz.hasMany(Comment);
 
 // los quizes pertenecen a un usuario registrado
 //jng Quiz.belongsTo(User);
@@ -55,7 +55,7 @@ var Quiz = sequelize.import(quiz_path);
 
 // exportar tablas
 exports.Quiz = Quiz; 
-//jng exports.Comment = Comment; 
+exports.Comment = Comment; 
 //jng exports.User = User;
 
 console.log(sequelize.sync());

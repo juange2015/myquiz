@@ -4,8 +4,11 @@ var models = require('../models/models.js');
 
 // Autoload factoriza el codigo común para rutas que contengan :quizId
 exports.load = function(req, res, next, quizId) {
-	models.Quiz.find(quizId).then(
-	function(quiz){
+	//console.log("LOAD",quizId);
+	models.Quiz.find({
+			where: {id: Number(quizId) },
+			include: [{model: models.Comment }]
+		}).then( function(quiz){
 		if (quiz){
 			req.quiz=quiz;
 			next();
@@ -56,15 +59,23 @@ exports.index = function(req, res){
 		
 };
 
+
+
+
 // GET /quizes/:id
 exports.show = function(req, res) {
-	//console.log("DEPURAshow", req);
+	console.log("DEPURAshow.comments");//, req.quiz.comments;
+	for (indice in req.quiz.comments) {console.log(req.quiz.comments[indice].texto)};
+	//console.log("DEPURAshow", req.quiz);
 	//models.Quiz.find(req.params.quizId).then(function(quiz){
 		//depurando if (quiz===null ) console.log("quiz ya es nulo",req.params);
 		//depurando console.log("Depurando: ", quiz);
 		res.render('quizes/show', { quiz: req.quiz,errors:[]});
 	//})
 };
+
+
+
 
 // GET /quizes/:id/answer
 exports.answer = function(req, res) {
