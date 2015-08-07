@@ -1,11 +1,11 @@
 // MW de autorización de accesos HTTP restringidos
-//juange exports.loginRequired = function(req, res, next){
-//juange     if (req.session.user) {
-//juange         next();
-//juange     } else {
-//juange         res.redirect('/login');
-//juange     }
-//juange };
+exports.loginRequired = function(req, res, next){
+     if (req.session.user) {
+         next();
+     } else {
+         res.redirect('/login');
+     }
+ };
 
 // Get /login   -- Formulario de login
 exports.new = function(req, res) {
@@ -25,7 +25,7 @@ exports.create = function(req, res) {
     userController.autenticar(login, password, function(error, user) {
 
         if (error) {  // si hay error retornamos mensajes de error de sesión
-            req.session.errors = [{"message": 'Por aqu� no vamos bien: '+error}];
+            req.session.errors = [{"message": 'Parece que no vamos bien: '+error}];
             res.redirect("/login");        
             return;
         }
