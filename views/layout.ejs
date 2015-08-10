@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8"><title> Preguntas </title>
+  <!meta http - equiv="refr esh" cont ent="5" es contraproductivo para autologout por inactividad />
   <link rel='stylesheet' href='/stylesheets/style.css' />
   <link rel='stylesheet' 
         type='text/css'
@@ -11,6 +12,31 @@
         type='text/css'
         media='only screen and (max-width: 480px)' 
         href='/stylesheets/smartphone.css' />
+	
+<script type="text/javascript" src="http://zeptojs.com/zepto.min.js" ></script>
+<script type="text/javascript">
+ var contador=31;
+
+  $(function(){
+    function mostrar_hora( ) {
+      contador--;
+      if (contador>0){
+	$('#cuentaAtras').html("["+contador+"s]");
+      }
+      else{
+        if (contador <-1){
+		document.location.reload();
+	}
+	else{
+		$('#cuentaAtras').html("[ Expirada ]");
+	}
+      }
+
+    }
+    setInterval(function(){mostrar_hora();}, 1000);
+    mostrar_hora();
+  })
+</script>
 
 </head> 
 
@@ -23,7 +49,8 @@
   <%if(!session.user){%>
       <span class="right"><a href="/login">Login</a></span>
     <%}else{%>
-      <span class="right"> (<%= session.user.username %> ) <a href="/logout">Logout</a></span>
+      <span class="right"> (<%= session.user.username %>) <a href="/logout">Logout</a></span>
+      <span class="right" id="cuentaAtras"></span>
     <%}%>
   
   
@@ -36,10 +63,16 @@
     <span><a href="/author">Creditos</a></span>
   </nav>
 
+
   <section class="main" id="s1">
-  <% if (errors.length) { %>
+   
+   <%# DEPURA "<hr>< \%  JSON.stringify(errors) %  \><hr>"  %>
+   
+   
+     <% if (errors.length) { %>
       <span id='ErrorMsgs'>
         Corregir errores:<br/>
+	
         <% for (var i in errors) { %>
            <span> <%= errors[i].message %> </span><br/>
         <% } %>

@@ -23,7 +23,7 @@ exports.new = function(req, res) {
 
 // POST /quizes/:quizId/comments
 exports.create = function(req, res) {
-console.log("DEPURAMOS COMMENT create");
+console.log("DEPURAMOS COMMENT .");
 console.log(req.params.quizId);
 	
   var comment = models.Comment.build(
@@ -31,10 +31,16 @@ console.log(req.params.quizId);
         QuizId: req.params.quizId
         });
 
+  console.log("DEPURAMOS COMMENT created",comment);
   var fallos=comment.validate();
-console.log("DEPURAMOS COMMENT create",comment);
-     if (fallos) {
-        res.render('comments/new.ejs', {comment: comment, quizid: req.params.quizId, errors: err.errors});
+	console.log("DEPURAMOS FALLOS validados",fallos);  
+	if (fallos) {
+		var i=0;
+		misfallos=new Array();
+		for (var prop in fallos){
+				misfallos[i++]={message: fallos[prop]};
+			}
+		res.render('comments/new.ejs', {comment: comment, quizid: req.params.quizId, errors: misfallos});
       } else {
         comment // save: guarda en DB campo texto de comment
         .save()

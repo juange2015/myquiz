@@ -4,6 +4,7 @@ var models = require('../models/models.js');
 
 // Autoload factoriza el codigo común para rutas que contengan :quizId
 exports.load = function(req, res, next, quizId) {
+	//console.log("QUIZ.controller.load");
 	//console.log("LOAD",quizId);
 	models.Quiz.find({
 			where: {id: Number(quizId) },
