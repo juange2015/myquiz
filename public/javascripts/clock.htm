@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Simpliest countdown del curso anterior</title><meta charset="UTF-8">
+<style type="text/css">
+
+
+#tex {
+  padding-top: 0.2em;
+  background-color: #FFF;
+}
+
+
+
+</style>
+<script type="text/javascript" src="http://zeptojs.com/zepto.min.js" ></script>
+<script type="text/javascript">
+ var contador=10;
+
+  $(function(){
+    function mostrar_hora( ) {
+      contador--;
+      if (contador>0){
+	$('#text').html(contador);
+      }
+      else{
+        if (contador <-2){
+		history.go(0);
+	}
+	else{
+		$('#text').html("Sesión expirada");
+	}
+      }
+
+    }
+    setInterval(function(){mostrar_hora();}, 1000);
+    mostrar_hora();
+  })
+</script>
+</head>
+<body>
+  <div id="text">Tienes</div>
+</body>
+</html>
