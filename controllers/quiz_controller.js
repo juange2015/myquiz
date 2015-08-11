@@ -109,8 +109,8 @@ exports.new = function(req, res) {
 exports.create = function(req, res) {
 	
 	
-	console.log("DEPURANDO CREATE req.body.quiz", req.body.quiz);
-	console.log("DEPURANDO CREATE req.body.tema", req.body.tema);
+	//console.log("DEPURANDO CREATE req.body.quiz", req.body.quiz);
+	//console.log("DEPURANDO CREATE req.body.tema", req.body.tema);
 	//depura console.log("DEPURANDO CREATE req.quiz", req.quiz); este da undefined
 	// por alguna razón no llega el campo tema
 
@@ -118,7 +118,7 @@ exports.create = function(req, res) {
 	
 	
 	// creas un objeto nuevo que mapear en la base de datos
-	console.log("DEPURANDO mas");
+	//console.log("DEPURANDO mas");
 
 	var max=3;
 	//seguro que hay una manera más directa de calcular el máximo +1 de los id, pero he intentado models.Quiz.max({field: "id}) y no lo he conseguido hacer funcionar
@@ -136,7 +136,7 @@ exports.create = function(req, res) {
 //				}
 //			};
 //	quiz.id=max;
-	console.log("DEPURANDO CREATEed quiz.id", quiz.id);
+	//console.log("DEPURANDO CREATEed quiz.id", quiz.id);
 	quiz.tema=req.body.tema;
 			
        	var fallos=quiz.validate();

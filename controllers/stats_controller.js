@@ -11,7 +11,7 @@ exports.showStats = function(req, res) {
 				
 		};
 
-	console.log("DEPURA Estadisticas");
+	//console.log("DEPURA Estadisticas");
 	// hay que calcular:
 	// El número de preguntas
 	// El número de comentarios totales
@@ -43,7 +43,7 @@ exports.showStats = function(req, res) {
 	// habra que crear un controller que mappe las bases de datos para sacar los contajes
 	// recupera de cuando contabas cuantos había para crear la máxima + 1 antes del comentario para borrar el id
 
-	console.log("DEPURA Estadisticas OK");
+	//console.log("DEPURA Estadisticas OK");
 	//JNG models.Quiz.count().then(function(count){
 	//JNG 	console.log("STATScount", count);
 	//JNG 	return models.Coment.count();

@@ -23,17 +23,17 @@ exports.new = function(req, res) {
 
 // POST /quizes/:quizId/comments
 exports.create = function(req, res) {
-console.log("DEPURAMOS COMMENT .");
-console.log(req.params.quizId);
+//console.log("DEPURAMOS COMMENT .");
+//console.log(req.params.quizId);
 	
   var comment = models.Comment.build(
       { texto: req.body.comment.texto,          
         QuizId: req.params.quizId
         });
 
-  console.log("DEPURAMOS COMMENT created",comment);
+  //console.log("DEPURAMOS COMMENT created",comment);
   var fallos=comment.validate();
-	console.log("DEPURAMOS FALLOS validados",fallos);  
+	//console.log("DEPURAMOS FALLOS validados",fallos);  
 	if (fallos) {
 		var i=0;
 		misfallos=new Array();

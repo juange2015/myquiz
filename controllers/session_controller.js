@@ -1,6 +1,6 @@
 // MW de autorización de accesos HTTP restringidos
 exports.loginRequired = function(req, res, next){
-	console.log("PIDE ALGO",req.session);
+	//console.log("PIDE ALGO",req.session);
      if (req.session.user) {
          next();
      } else {
@@ -40,7 +40,7 @@ req.session.cookie._expires=30;
 req.session.cookie.secure=true;
 req.session.cookie.maxAge=30000; // 30 segundos �nicamente
 
-	console.log ("QUE TIENE UNA SESION", req.session);
+	//console.log ("QUE TIENE UNA SESION", req.session);
         res.redirect(req.session.redir.toString());// redirección a path anterior a login
     });
 };
