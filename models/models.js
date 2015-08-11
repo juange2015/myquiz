@@ -57,6 +57,7 @@ Quiz.hasMany(Comment);
 exports.Quiz = Quiz; 
 exports.Comment = Comment; 
 //jng exports.User = User;
+exports.sequelize =sequelize	;  //Modulo 9 estadísticas. Se supone que esto da acceso a la base de datos completa
 
 console.log(sequelize.sync());
 console.log("sequelize.synced");

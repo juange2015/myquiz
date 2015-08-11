@@ -6,6 +6,7 @@ var router = express.Router();
 var quizController = require('../controllers/quiz_controller');
 var commentController = require('../controllers/comment_controller');
 var sessionController = require('../controllers/session_controller');
+var statsController = require('../controllers/stats_controller');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -17,9 +18,9 @@ router.param("quizId", quizController.load);
 router.param('commentId', commentController.load);  // autoload :commentId
 
 // Definici贸n de rutas de sesion
-router.get('/login',  sessionController.new);     // formulario login
-router.post('/login', sessionController.create);  // crear sesi贸n
-router.get('/logout', sessionController.destroy); // destruir sesi贸n
+router.get('/login',  	sessionController.new);     // formulario login
+router.post('/login', 	sessionController.create);  // crear sesi贸n
+router.get('/logout', 	sessionController.destroy); // destruir sesi贸n
 
 
 // definici髇 de rutas
@@ -44,6 +45,9 @@ router.get ('/quizes/:quizId(\\d+)/comments/new', 	 commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments', 	 	 commentController.create);
 
 
-router.get('/author', quizController.author);
+router.get('/quizes/statistics', 		statsController.showStats);
+
+
+router.get('/author', 				quizController.author);
 
 module.exports = router;

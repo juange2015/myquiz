@@ -26,32 +26,32 @@ exports.load = function(req, res, next, quizId) {
 // GET /quizes/?search=algo
 //intenté separar los casos en el router: exports.indexfiltered = function(req, res) {
 exports.index = function(req, res){
-	console.log("DEPURA FILTRA", req.query.search);
-	console.log("DEPURA FILTRA", req.query.tema);
+	//depura console.log("DEPURA FILTRA", req.query.search);
+	//depura console.log("DEPURA FILTRA", req.query.tema);
 	
 	// me falta poder filtrar por ambas cosas a la vez: hay que ver cómo se meten ambas condiciones en el where
 	
 	if (req.query.tema){
-		console.log("DEPURA con tema", req.query.tema);
+		//depura console.log("DEPURA con tema", req.query.tema);
 		//var texto= req.query.search;
 		//depura console.log("DEPURA2", texto);
-		console.log("DEPURA5->:", texto,":<-");
+		//depura console.log("DEPURA5->:", texto,":<-");
 		models.Quiz.findAll({where:["tema like ?", req.query.tema],order:'pregunta ASC'}).then(function(quizes){
 			res.render('quizes/index',{quizes: quizes,errors: []}); 
 			}).catch(function(error) { next(error);});
 		
 	}else if (req.query.search && req.query.search !=''){
-	console.log("DEPURA con search", req.query,req.query.search);
+		//depura console.log("DEPURA con search", req.query,req.query.search);
 		//var texto= req.query.search;
 		//depura console.log("DEPURA2", texto);
 		var texto=req.query.search.replace(" ", "%");
-		console.log("DEPURA5->:", texto,":<-");
+		//depura console.log("DEPURA5->:", texto,":<-");
 		models.Quiz.findAll({where:["pregunta like ?", '%'+texto+'%'],order:'pregunta ASC'}).then(function(quizes){
 			res.render('quizes/index',{quizes: quizes,errors: []}); 
 			}).catch(function(error) { next(error);});
 		
 	}else{
-		console.log("DEPURA sin parametros", req.query,req.query.search);
+		//depura console.log("DEPURA sin parametros", req.query,req.query.search);
 		//depura console.log("DEPURASIN", req.query);
 		models.Quiz.findAll().then(function(quizes){
 		res.render('quizes/index',{quizes: quizes,errors:[]}); 
@@ -65,7 +65,7 @@ exports.index = function(req, res){
 
 // GET /quizes/:id
 exports.show = function(req, res) {
-	console.log("DEPURAshow.comments");//, req.quiz.comments;
+	//depura console.log("DEPURAshow.comments");//, req.quiz.comments;
 	for (indice in req.quiz.comments) {console.log(req.quiz.comments[indice].texto)};
 	//console.log("DEPURAshow", req.quiz);
 	//models.Quiz.find(req.params.quizId).then(function(quiz){
@@ -183,15 +183,15 @@ exports.edit = function(req, res) {
 exports.update = function(req, res) {
 //req.quiz ya es el objeto que tienes mapeado en sequalize: actualiza sobre él y haz save al final
 
-console.log("DEPURANDO UPDATE req.body.quiz", req.body.quiz);
-console.log("DEPURANDO UPDATE req.body.tema", req.body.tema);
-console.log("DEPURA UPDATE req.quiz.pregunta", req.quiz.pregunta,req.quiz.tema);   
-console.log("DEPURA UPDATE body.tema", req.body.tema);   
+//depura console.log("DEPURANDO UPDATE req.body.quiz", req.body.quiz);
+//depura console.log("DEPURANDO UPDATE req.body.tema", req.body.tema);
+//depura console.log("DEPURA UPDATE req.quiz.pregunta", req.quiz.pregunta,req.quiz.tema);   
+//depura console.log("DEPURA UPDATE body.tema", req.body.tema);   
 //copias a capón los valores nuevos en los viejos, y ya haras save en la base de datos
   req.quiz.pregunta  = req.body.quiz.pregunta;
   req.quiz.respuesta = req.body.quiz.respuesta;
   req.quiz.tema = req.body.tema;  // no se por qué sale fuera de quiz
-console.log("DEPURA UPDATE quiz.pregunta.cambiada", req.quiz.pregunta,req.quiz.tema);   
+//depura console.log("DEPURA UPDATE quiz.pregunta.cambiada", req.quiz.pregunta,req.quiz.tema);   
 	
 	
  var fallos=req.quiz.validate();
@@ -221,3 +221,5 @@ exports.destroy = function(req, res) {
     res.redirect('/quizes');
   }).catch(function(error){next(error)});
 };
+
+
